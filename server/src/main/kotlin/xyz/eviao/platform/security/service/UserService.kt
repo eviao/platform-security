@@ -12,11 +12,13 @@ class UserService(
 ) {
 
     private val users = listOf<User>(
-            User(id = 1L, name = "管理员", username = "root", password = passwordEncoder.encode("root"), email = "root@eviao.xyz", enabled = true, authorities = listOf("ADMIN")),
-            User(id = 2L, name = "普通用户", username = "guest", password = passwordEncoder.encode("guest"), email = "guest@eviao.xyz", enabled = true, authorities = listOf("NORMAL"))
+            User(id = 1L, name = "管理员", password = passwordEncoder.encode("root"), email = "root@eviao.xyz", phone = "111111", enabled = true, authorities = listOf("ADMIN")),
+            User(id = 2L, name = "普通用户", password = passwordEncoder.encode("guest"), email = "guest@eviao.xyz", phone = "222222", enabled = true, authorities = listOf("NORMAL"))
     )
 
     fun findByUsername(username: String): User? {
-        return this.users.filter { it.username == username }.firstOrNull()
+        return this.users
+                .filter { username.equals(it.email) || username.equals(it.phone) }
+                .firstOrNull()
     }
 }

@@ -7,12 +7,12 @@ data class User(
 
         val name: String? = null,
 
-        val username: String? = null,
-
         @field: JsonIgnore
         val password: String? = null,
 
         val email: String? = null,
+
+        val phone: String? = null,
 
         val enabled: Boolean = true,
 

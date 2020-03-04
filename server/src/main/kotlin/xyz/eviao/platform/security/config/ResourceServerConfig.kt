@@ -6,12 +6,14 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
+import xyz.eviao.platform.security.authentication.email.EmailAuthenticationSecurityConfig
 
 @Configuration
 @EnableResourceServer
 class ResourceServerConfig(
         val authenticationSuccessHandler: AuthenticationSuccessHandler,
-        val authenticationFailureHandler: AuthenticationFailureHandler
+        val authenticationFailureHandler: AuthenticationFailureHandler,
+        val emailAuthenticationSecurityConfig: EmailAuthenticationSecurityConfig
 ) : ResourceServerConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
@@ -20,13 +22,17 @@ class ResourceServerConfig(
                 .cors().disable()
 
                 .authorizeRequests()
-                .antMatchers("/hello").permitAll()
+//                .antMatchers("/hello").permitAll()
                 .anyRequest().authenticated()
 
-                .and().formLogin()
-                .loginProcessingUrl("/auth/login")
-                .successHandler(authenticationSuccessHandler)
-                .failureHandler(authenticationFailureHandler)
+                .and()
+                    .formLogin()
+                    .loginProcessingUrl("/auth/login")
+                    .successHandler(authenticationSuccessHandler)
+                    .failureHandler(authenticationFailureHandler)
+
+                .and()
+                    .apply(emailAuthenticationSecurityConfig)
 
     }
 }

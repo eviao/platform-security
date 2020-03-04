@@ -4,8 +4,6 @@ import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.core.userdetails.UsernameNotFoundException
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import xyz.eviao.platform.security.service.UserService
 
@@ -26,7 +24,7 @@ class UserDetailsServiceImpl(
 
         return SecurityUser(
                 uid = user.id!!,
-                username = user.username!!,
+                username = username,
                 name = user.name!!,
                 password = user.password!!,
                 enabled = user.enabled,
