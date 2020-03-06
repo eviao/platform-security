@@ -31,6 +31,7 @@ class LoginPresenter(val view: LoginContract.View) : LoginContract.Presenter {
     }
 
     override fun login(username: String?, password: String?) {
+        
         if (username.isNullOrBlank()) {
             view.showError("用户名不能为空")
             return
@@ -41,13 +42,11 @@ class LoginPresenter(val view: LoginContract.View) : LoginContract.Presenter {
             return
         }
 
-        view.showLoading()
-
         compositeDisposable.add(authenticationService.login(CredentialUtils.basic(), username, password)
-            .doOnSubscribe {  }
-            .doFinally { view.hideLoading() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { view.showLoading() }
+            .doFinally { view.hideLoading() }
             .subscribe({
                 persistSession(it)
                 view.navigationToHome()
