@@ -5,10 +5,8 @@ import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.crypto.password.PasswordEncoder
 
 class EmailAuthenticationProvider(
-        val passwordEncoder: PasswordEncoder,
         val userDetailsService: UserDetailsService
 ) : AuthenticationProvider {
 
@@ -22,9 +20,9 @@ class EmailAuthenticationProvider(
         }
 
         val userDetails = userDetailsService.loadUserByUsername(email)
-        val result = UsernamePasswordAuthenticationToken(userDetails.username, userDetails.password, userDetails.authorities)
-        result.details = token.details
-        return result
+        return UsernamePasswordAuthenticationToken(userDetails.username, userDetails.password, userDetails.authorities).apply {
+            details = token.details
+        }
     }
 
     override fun supports(authentication: Class<*>?): Boolean {

@@ -25,7 +25,7 @@ class EmailAuthenticationSecurityConfig(
         filter.setAuthenticationSuccessHandler(authenticationSuccessHandler)
         filter.setAuthenticationFailureHandler(authenticationFailureHandler)
 
-        val provider = EmailAuthenticationProvider(passwordEncoder, userDetailsService)
+        val provider = EmailAuthenticationProvider(userDetailsService)
         builder.authenticationProvider(provider).addFilterAfter(filter, UsernamePasswordAuthenticationFilter::class.java)
     }
 }

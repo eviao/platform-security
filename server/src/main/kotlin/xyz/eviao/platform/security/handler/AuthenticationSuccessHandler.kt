@@ -35,7 +35,7 @@ class AuthenticationSuccessHandler(
         val clientId = tokens.first()
         val clientSecret = tokens.last()
 
-        val clientDetails: ClientDetails = clientDetailsService.loadClientByClientId(clientId).apply {
+        val clientDetails = clientDetailsService.loadClientByClientId(clientId).apply {
             if (this == null) throw UnapprovedClientAuthenticationException("Invalid authentication client id")
         }
         if (!passwordEncoder.matches(clientSecret, clientDetails.clientSecret)) {
