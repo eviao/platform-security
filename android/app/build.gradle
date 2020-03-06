@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        applicationId "xyz.eviao.platform.security"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions{
+        sourceCompatibility build_versions.java
+        targetCompatibility build_versions.java
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.kotlin.stdlib
+
+
+    implementation deps.appcompat
+    implementation deps.core_ktx
+    implementation deps.constraintlayout
+    implementation deps.design
+
+    implementation deps.anko.commons
+    implementation deps.anko.sdk25
+    implementation deps.anko.sdk25_coroutines
+    implementation deps.anko.appcompat
+    implementation deps.anko.appcompat_coroutines
+
+    implementation deps.rxjava2
+    implementation deps.rxandroid
+
+    implementation deps.okhttp.logging
+    implementation deps.retrofit2.core
+    implementation deps.retrofit2.rxjava
+    implementation deps.retrofit2.gson
+
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.atsl_junit_ext
+    androidTestImplementation deps.test.atsl_espresso_core
+}
